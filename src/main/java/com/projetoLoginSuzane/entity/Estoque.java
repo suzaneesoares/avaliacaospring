@@ -1,14 +1,14 @@
 package com.projetoLoginSuzane.entity;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,29 +17,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table (name = "produtos")
-public class Produtos {
+@Table(name = "estoque")
+public class Estoque {
 	
-	@OneToOne(mappedBy = "produto", cascade = CascadeType.ALL)
-    private Estoque estoque;
-	
+	@OneToOne
+	@JoinColumn(name = "id_produto", nullable = false) // Mapeia a coluna da chave estrangeira
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Produtos produto;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotNull
-	@NotBlank
-	private String descricao;
-	
-	@NotNull
-	@NotBlank
-	private String nome;
-	
-	@NotNull
-	private Double preco;
-	
-	@NotNull
-	@NotBlank
-	private String url;
-	
+
+	private String localizacao;
+
+	private int quantidade;
+
 }
